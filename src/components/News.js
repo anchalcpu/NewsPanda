@@ -29,7 +29,7 @@ export default class News extends Component {
     async componentDidMount(){
       this.props.setProgress(0);
       console.log("componentDidMount");
-      this.state.loading=true;
+      this.setstate({loading:true});
     
       let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&pageSize=${this.props.pageSize}&apiKey=c90605e5d4e7448391f1598824211411&category=${this.props.category}`;
       let data= await fetch(url);
@@ -40,7 +40,7 @@ export default class News extends Component {
         this.props.setProgress(100);
     }
     handlenextClick=async()=>{
-    this.state.loading=true;
+    this.setState({loading:true})
      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=c90605e5d4e7448391f1598824211411&page=${this.state.page+1}&pageSize=${this.props.pageSize}&category=${this.props.category}`;
      let data= await fetch(url);
      let parseddata=await data.json();
@@ -51,7 +51,7 @@ export default class News extends Component {
       }
 
     handlepreClick=async()=>{
-      this.state.loading=true;
+      this.setState({loading:true})
       let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=c90605e5d4e7448391f1598824211411&page=${this.state.page-1}&pageSize=${this.props.pageSize}&category=${this.props.category}`;
       let data= await fetch(url);
       let parseddata=await data.json();
@@ -68,10 +68,10 @@ export default class News extends Component {
 
         <div className="d-flex justify-content-between">
             <h2 className="text-center display-6">NewsPanda -Top Headlines</h2>
-            <Weather/>
+            <Weather key="weather"/>
             </div>
 
-            {this.state.loading && <Spinner/>}
+            {this.state.loading && <Spinner key="spinner"/>}
             {this.state.articles.map((element)=>{
                 return <div className="col-md-3  d-flex"  key={element.id}  >
                 <Newsitem title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} 
